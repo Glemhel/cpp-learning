@@ -36,6 +36,9 @@ public:
 
     // Parametrized constructor
     Rational(int x, int y) {
+        if (y == 0){
+            throw invalid_argument("Denominator can't be 0");
+        }
         numerator = x;
         denominator = y;
         // only numerator < 0
@@ -95,6 +98,9 @@ Rational operator*(const Rational &lhs, const Rational &rhs) {
 
 // division - multiply by inverse of rhs
 Rational operator/(const Rational &lhs, const Rational &rhs) {
+    if (rhs.Numerator() == 0){
+        throw domain_error("Division by zero");
+    }
     return lhs * Rational(rhs.Denominator(), rhs.Numerator());
 }
 
@@ -126,29 +132,21 @@ bool operator<(const Rational &lhs, const Rational &rhs) {
     return (lhs - rhs).Numerator() < 0;
 }
 
-
 int main() {
-    istringstream s("5*9"), s1("5/9"), s2(""), s3("*94");
-    Rational x;
-    if (s >> x) {
-        cout << "OK" << endl;
-    } else {
-        cout << "Error" << endl;
+    try {
+        Rational r(1, 0);
+        cout << "Doesn't throw in case of zero denominator" << endl;
+        return 1;
+    } catch (invalid_argument&) {
     }
-    if (s1 >> x) {
-        cout << "OK" << endl;
-    } else {
-        cout << "Error" << endl;
+
+    try {
+        auto x = Rational(1, 2) / Rational(0, 1);
+        cout << "Doesn't throw in case of division by zero" << endl;
+        return 2;
+    } catch (domain_error&) {
     }
-    if (s2 >> x) {
-        cout << "OK" << endl;
-    } else {
-        cout << "Error" << endl;
-    }
-    if (s3 >> x) {
-        cout << "OK" << endl;
-    } else {
-        cout << "Error" << endl;
-    }
+
+    cout << "OK" << endl;
     return 0;
 }
