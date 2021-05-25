@@ -15,6 +15,7 @@ int main() {
     int n;
     uint64_t r;
     cin >> n >> r; // if r is uint8_t then reading works as reading symbol! very weird!
+    // solution - read just int or overload input operator
     uint64_t sum_mass = 0;
     for (int i = 0; i < n; i++) {
         uint64_t w, h, d;
